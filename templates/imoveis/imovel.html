@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Detalhes do Imóvel</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="container-header">
+      <div class="logo">
+        <a href="{{ url_for('home.home') }}"><img src="https://front-nairim-holding.vercel.app/logo.svg"
+            alt="logo nairim holding" /></a>
+      </div>
+      <nav class="nav-links">
+        <a href="{{ url_for('imoveis.listar_imoveis') }}">Imóveis</a>
+        <a href="{{ url_for('proprietarios.listar_proprietarios') }}">Proprietários</a>
+        <a href="{{ url_for('imobiliarias.listar_imobiliarias') }}">Imobiliárias</a>
+        <a href="{{ url_for('categorias.listar_categorias') }}">Categorias</a>
+        <a href="{{ url_for('usuarios.listar_usuarios') }}">Usuários</a>
+        <a href="{{ url_for('favoritos.listar_favoritos') }}">Favoritos</a>
+        <a href="{{ url_for('visitas.listar_visitas') }}">Visitas</a>
+        <a href="{{ url_for('avaliacoes.listar_avaliacoes') }}">Avaliações</a>
+        <a href="{{ url_for('reclamacoes.listar_reclamacoes') }}">Reclamações</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container">
+    <h1>Imóvel</h1>
+
+    <table>
+      <tr>
+        <th>ID</th>
+        <td>{{ imovel.id }}</td>
+      </tr>
+      <tr>
+        <th>Preço</th>
+        <td>R$ {{ "%.2f"|format(imovel.preco) }}</td>
+      </tr>
+      <tr>
+        <th>ID do Proprietário</th>
+        <td>{{ imovel.proprietario_id }}</td>
+      </tr>
+      <tr>
+        <th>ID da Imobiliária</th>
+        <td>{{ imovel.imobiliaria_id }}</td>
+      </tr>
+      <tr>
+        <th>ID da Categoria</th>
+        <td>{{ imovel.categoria_id }}</td>
+      </tr>
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('imoveis.listar_imoveis') }}" class="btn-back">Voltar para lista</a>
+  </div>
+</body>
+
+</html>

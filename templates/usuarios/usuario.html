@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes do Usuário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container-header">
+            <div class="logo">
+                <a href="{{ url_for('home.home') }}"><img src="https://front-nairim-holding.vercel.app/logo.svg"
+                        alt="logo nairim holding" /></a>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('imoveis.listar_imoveis') }}">Imóveis</a>
+                <a href="{{ url_for('proprietarios.listar_proprietarios') }}">Proprietários</a>
+                <a href="{{ url_for('imobiliarias.listar_imobiliarias') }}">Imobiliárias</a>
+                <a href="{{ url_for('categorias.listar_categorias') }}">Categorias</a>
+                <a href="{{ url_for('usuarios.listar_usuarios') }}">Usuários</a>
+                <a href="{{ url_for('favoritos.listar_favoritos') }}">Favoritos</a>
+                <a href="{{ url_for('visitas.listar_visitas') }}">Visitas</a>
+                <a href="{{ url_for('avaliacoes.listar_avaliacoes') }}">Avaliações</a>
+                <a href="{{ url_for('reclamacoes.listar_reclamacoes') }}">Reclamações</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Usuário</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Senha</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ usuario.id }}</td>
+                    <td>{{ usuario.nome }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.senha }}</td>
+                    <td>{{ usuario.tipo }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('usuarios.listar_usuarios') }}" class="btn-back">Voltar para lista</a>
+    </div>
+</body>
+
+</html>

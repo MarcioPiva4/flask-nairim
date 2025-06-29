@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Nairim Holding</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container-header">
+            <div class="logo">
+                <a href="{{ url_for('home.home') }}"><img src="https://front-nairim-holding.vercel.app/logo.svg" alt="logo nairim holding"/></a>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('imoveis.listar_imoveis') }}">Imóveis</a>
+                <a href="{{ url_for('proprietarios.listar_proprietarios') }}">Proprietários</a>
+                <a href="{{ url_for('imobiliarias.listar_imobiliarias') }}">Imobiliárias</a>
+                <a href="{{ url_for('categorias.listar_categorias') }}">Categorias</a>
+                <a href="{{ url_for('usuarios.listar_usuarios') }}">Usuários</a>
+                <a href="{{ url_for('favoritos.listar_favoritos') }}">Favoritos</a>
+                <a href="{{ url_for('visitas.listar_visitas') }}">Visitas</a>
+                <a href="{{ url_for('avaliacoes.listar_avaliacoes') }}">Avaliações</a>
+                <a href="{{ url_for('reclamacoes.listar_reclamacoes') }}">Reclamações</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+    <h1>Bem-vindo à Nairim Holding</h1>
+    <p>Essa é a página inicial do sistema de gestão de imóveis.</p>
+
+    <div class="cards">
+        <div class="card">
+            <h2>Imóveis</h2>
+            <p>Gerencie todos os imóveis cadastrados no sistema.</p>
+            <a href="{{ url_for('imoveis.listar_imoveis') }}">Acessar</a>
+        </div>
+        <div class="card">
+            <h2>Proprietários</h2>
+            <p>Veja os dados dos proprietários e gerencie suas informações.</p>
+            <a href="{{ url_for('proprietarios.listar_proprietarios') }}">Acessar</a>
+        </div>
+        <div class="card">
+            <h2>Imobiliárias</h2>
+            <p>Visualize as imobiliárias cadastradas no sistema.</p>
+            <a href="{{ url_for('imobiliarias.listar_imobiliarias') }}">Acessar</a>
+        </div>
+        <div class="card">
+            <h2>Categorias</h2>
+            <p>Gerencie categorias de imóveis disponíveis.</p>
+            <a href="{{ url_for('categorias.listar_categorias') }}">Acessar</a>
+        </div>
+        <div class="card">
+            <h2>Usuários</h2>
+            <p>Controle o cadastro e permissões dos usuários do sistema.</p>
+            <a href="{{ url_for('usuarios.listar_usuarios') }}">Acessar</a>
+        </div>
+        <div class="card">
+            <h2>Favoritos</h2>
+            <p>Consulte os imóveis favoritos dos usuários.</p>
+            <a href="{{ url_for('favoritos.listar_favoritos') }}">Acessar</a>
+        </div>
+        <div class="card">
+            <h2>Visitas</h2>
+            <p>Acompanhe e agende visitas aos imóveis.</p>
+            <a href="{{ url_for('visitas.listar_visitas') }}">Acessar</a>
+        </div>
+        <div class="card">
+            <h2>Avaliações</h2>
+            <p>Confira as avaliações feitas por usuários sobre os imóveis.</p>
+            <a href="{{ url_for('avaliacoes.listar_avaliacoes') }}">Acessar</a>
+        </div>
+        <div class="card">
+            <h2>Reclamações</h2>
+            <p>Monitore reclamações registradas no sistema.</p>
+            <a href="{{ url_for('reclamacoes.listar_reclamacoes') }}">Acessar</a>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

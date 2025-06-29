@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Avaliações</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container-header">
+            <div class="logo">
+                <a href="{{ url_for('home.home') }}"><img src="https://front-nairim-holding.vercel.app/logo.svg"
+                        alt="logo nairim holding" /></a>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('imoveis.listar_imoveis') }}">Imóveis</a>
+                <a href="{{ url_for('proprietarios.listar_proprietarios') }}">Proprietários</a>
+                <a href="{{ url_for('imobiliarias.listar_imobiliarias') }}">Imobiliárias</a>
+                <a href="{{ url_for('categorias.listar_categorias') }}">Categorias</a>
+                <a href="{{ url_for('usuarios.listar_usuarios') }}">Usuários</a>
+                <a href="{{ url_for('favoritos.listar_favoritos') }}">Favoritos</a>
+                <a href="{{ url_for('visitas.listar_visitas') }}">Visitas</a>
+                <a href="{{ url_for('avaliacoes.listar_avaliacoes') }}">Avaliações</a>
+                <a href="{{ url_for('reclamacoes.listar_reclamacoes') }}">Reclamações</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Avaliações</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nota</th>
+                    <th>Comentário</th>
+                    <th>Usuário</th>
+                    <th>Imóvel</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for avaliacao in avaliacoes %}
+                <tr>
+                    <td>{{ avaliacao.id }}</td>
+                    <td>{{ avaliacao.nota }}</td>
+                    <td>{{ avaliacao.comentario }}</td>
+                    <td>{{ avaliacao.usuario.nome }}</td>
+                    <td>{{ avaliacao.imovel.id }}</td>
+                    <td>
+                        <a class="btn" href="{{ url_for('avaliacoes.ver_avaliacao', id=avaliacao.id) }}">Ver</a>
+                        <a class="btn" href="{{ url_for('avaliacoes.editar_avaliacao', id=avaliacao.id) }}">Editar</a>
+                        <a class="btn btn-danger"
+                            href="{{ url_for('avaliacoes.deletar_avaliacao', id=avaliacao.id) }}">Deletar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a class="btn-create" href="{{ url_for('avaliacoes.criar_avaliacao') }}">Criar Avaliação</a>
+    </div>
+</body>
+
+</html>

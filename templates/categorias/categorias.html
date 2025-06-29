@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Categorias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container-header">
+            <div class="logo">
+                <a href="{{ url_for('home.home') }}"><img src="https://front-nairim-holding.vercel.app/logo.svg"
+                        alt="logo nairim holding" /></a>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('imoveis.listar_imoveis') }}">Imóveis</a>
+                <a href="{{ url_for('proprietarios.listar_proprietarios') }}">Proprietários</a>
+                <a href="{{ url_for('imobiliarias.listar_imobiliarias') }}">Imobiliárias</a>
+                <a href="{{ url_for('categorias.listar_categorias') }}">Categorias</a>
+                <a href="{{ url_for('usuarios.listar_usuarios') }}">Usuários</a>
+                <a href="{{ url_for('favoritos.listar_favoritos') }}">Favoritos</a>
+                <a href="{{ url_for('visitas.listar_visitas') }}">Visitas</a>
+                <a href="{{ url_for('avaliacoes.listar_avaliacoes') }}">Avaliações</a>
+                <a href="{{ url_for('reclamacoes.listar_reclamacoes') }}">Reclamações</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Categorias de Imóvel</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descricao</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                <tr>
+                    <td>{{ categoria.id }}</td>
+                    <td>{{ categoria.nome }}</td>
+                    <td>{{ categoria.descricao }}</td>
+                    <td>
+                        <a class="btn" href="{{ url_for('categorias.ver_categoria', id=categoria.id) }}">Ver</a>
+                        <a class="btn" href="{{ url_for('categorias.editar_categoria', id=categoria.id) }}">Editar</a>
+                        <a class="btn btn-danger"
+                            href="{{ url_for('categorias.deletar_categoria', id=categoria.id) }}">Deletar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="btn-create" href="{{ url_for('categorias.criar_categoria') }}">Criar Categoria</a>
+    </div>
+</body>
+
+</html>

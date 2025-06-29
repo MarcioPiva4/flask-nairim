@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Visita</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container-header">
+            <div class="logo">
+                <a href="{{ url_for('home.home') }}"><img src="https://front-nairim-holding.vercel.app/logo.svg"
+                        alt="logo nairim holding" /></a>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('imoveis.listar_imoveis') }}">Imóveis</a>
+                <a href="{{ url_for('proprietarios.listar_proprietarios') }}">Proprietários</a>
+                <a href="{{ url_for('imobiliarias.listar_imobiliarias') }}">Imobiliárias</a>
+                <a href="{{ url_for('categorias.listar_categorias') }}">Categorias</a>
+                <a href="{{ url_for('usuarios.listar_usuarios') }}">Usuários</a>
+                <a href="{{ url_for('favoritos.listar_favoritos') }}">Favoritos</a>
+                <a href="{{ url_for('visitas.listar_visitas') }}">Visitas</a>
+                <a href="{{ url_for('avaliacoes.listar_avaliacoes') }}">Avaliações</a>
+                <a href="{{ url_for('reclamacoes.listar_reclamacoes') }}">Reclamações</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Editar Visita</h1>
+        <form method="POST">
+            <label for="data_hora">Data e Hora:</label>
+            <input type="datetime-local" id="data_hora" name="data_hora"
+                value="{{ visita.data_hora.strftime('%Y-%m-%dT%H:%M') }}" required><br><br>
+
+            <label for="usuario_id">Usuário:</label>
+            <select name="usuario_id" id="usuario_id" required>
+                {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}" {% if usuario.id==visita.usuario_id %}selected{% endif %}>
+                    {{ usuario.nome }}
+                </option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="imovel_id">Imóvel:</label>
+            <select name="imovel_id" id="imovel_id" required>
+                {% for imovel in imoveis %}
+                <option value="{{ imovel.id }}" {% if imovel.id==visita.imovel_id %}selected{% endif %}>
+                    #{{ imovel.id }} - {{ imovel.preco }} R$
+                </option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="observacoes">Observações:</label><br>
+            <textarea id="observacoes" name="observacoes" rows="4" cols="50">{{ visita.observacoes }}</textarea><br><br>
+
+            <button type="submit">Atualizar</button>
+        </form>
+        <a class="btn" href="{{ url_for('visitas.ver_visita', id=visita.id) }}">Cancelar</a>
+    </div>
+</body>
+
+</html>
