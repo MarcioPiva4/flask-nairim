@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Home - Nairim Holding</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Sistema Imobiliário</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -26,56 +28,110 @@
     </header>
 
     <div class="container">
-    <h1>Bem-vindo à Nairim Holding</h1>
-    <p>Essa é a página inicial do sistema de gestão de imóveis.</p>
+        <h1>Bem-vindo à Nairim Holding</h1>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+        <a href="{{ url_for('home.gerar_relatorio_pdf') }}" 
+        class="btn btn-primary btn-gerarrelatorio">
+        📄 Gerar Relatório PDF
+        </a>
+    </div>
 
-    <div class="cards">
+    </div>
+
+    <div class="dashboard">
         <div class="card">
-            <h2>Imóveis</h2>
-            <p>Gerencie todos os imóveis cadastrados no sistema.</p>
-            <a href="{{ url_for('imoveis.listar_imoveis') }}">Acessar</a>
+            <h2>Imóveis por Categoria</h2>
+            <div id="grafico-categorias" class="plot"></div>
         </div>
+
         <div class="card">
-            <h2>Proprietários</h2>
-            <p>Veja os dados dos proprietários e gerencie suas informações.</p>
-            <a href="{{ url_for('proprietarios.listar_proprietarios') }}">Acessar</a>
+            <h2>Imóveis por Imobiliária</h2>
+            <div id="grafico-imobiliarias" class="plot"></div>
         </div>
+
         <div class="card">
-            <h2>Imobiliárias</h2>
-            <p>Visualize as imobiliárias cadastradas no sistema.</p>
-            <a href="{{ url_for('imobiliarias.listar_imobiliarias') }}">Acessar</a>
+            <h2>Preço Médio por Imobiliária</h2>
+            <div id="grafico-preco-medio" class="plot"></div>
         </div>
+
         <div class="card">
-            <h2>Categorias</h2>
-            <p>Gerencie categorias de imóveis disponíveis.</p>
-            <a href="{{ url_for('categorias.listar_categorias') }}">Acessar</a>
+            <h2>Usuários por Tipo</h2>
+            <div id="grafico-usuarios-tipo" class="plot"></div>
         </div>
+
         <div class="card">
-            <h2>Usuários</h2>
-            <p>Controle o cadastro e permissões dos usuários do sistema.</p>
-            <a href="{{ url_for('usuarios.listar_usuarios') }}">Acessar</a>
+            <h2>Imóveis por Proprietário</h2>
+            <div id="grafico-proprietarios" class="plot"></div>
         </div>
+
         <div class="card">
-            <h2>Favoritos</h2>
-            <p>Consulte os imóveis favoritos dos usuários.</p>
-            <a href="{{ url_for('favoritos.listar_favoritos') }}">Acessar</a>
+            <h2>Visitas por Imóvel</h2>
+            <div id="grafico-visitas-imovel" class="plot"></div>
         </div>
+
         <div class="card">
-            <h2>Visitas</h2>
-            <p>Acompanhe e agende visitas aos imóveis.</p>
-            <a href="{{ url_for('visitas.listar_visitas') }}">Acessar</a>
-        </div>
-        <div class="card">
-            <h2>Avaliações</h2>
-            <p>Confira as avaliações feitas por usuários sobre os imóveis.</p>
-            <a href="{{ url_for('avaliacoes.listar_avaliacoes') }}">Acessar</a>
-        </div>
-        <div class="card">
-            <h2>Reclamações</h2>
-            <p>Monitore reclamações registradas no sistema.</p>
-            <a href="{{ url_for('reclamacoes.listar_reclamacoes') }}">Acessar</a>
+            <h2>Visitas por Usuário</h2>
+            <div id="grafico-visitas-usuario" class="plot"></div>
         </div>
     </div>
-    </div>
+
+    <script>
+        async function carregarDados() {
+            const resposta = await fetch('/api/dashboard-data');
+            const dados = await resposta.json();
+
+            Plotly.newPlot("grafico-categorias", [{
+                labels: dados.imoveis_por_categoria.map(d => d.categoria),
+                values: dados.imoveis_por_categoria.map(d => d.total),
+                type: "pie",
+                hole: 0.4
+            }], {title: "Distribuição por Categoria"});
+
+            Plotly.newPlot("grafico-imobiliarias", [{
+                x: dados.imoveis_por_imobiliaria.map(d => d.imobiliaria),
+                y: dados.imoveis_por_imobiliaria.map(d => d.total),
+                type: "bar",
+                marker: {color: "royalblue"}
+            }], {title: "Quantidade de Imóveis", xaxis: {title: "Imobiliária"}, yaxis: {title: "Total"}});
+
+            Plotly.newPlot("grafico-preco-medio", [{
+                x: dados.preco_medio_por_imobiliaria.map(d => d.imobiliaria),
+                y: dados.preco_medio_por_imobiliaria.map(d => d.preco_medio),
+                type: "line",
+                line: {color: "green", width: 3}
+            }], {title: "Preço Médio (R$)", xaxis: {title: "Imobiliária"}, yaxis: {title: "Preço Médio"}});
+
+            Plotly.newPlot("grafico-usuarios-tipo", [{
+                labels: dados.usuarios_por_tipo.map(d => d.tipo),
+                values: dados.usuarios_por_tipo.map(d => d.total),
+                type: "pie"
+            }], {title: "Distribuição de Usuários"});
+
+            Plotly.newPlot("grafico-proprietarios", [{
+                x: dados.imoveis_por_proprietario.map(d => d.proprietario),
+                y: dados.imoveis_por_proprietario.map(d => d.total),
+                type: "bar",
+                orientation: "h",
+                marker: {color: "orange"}
+            }], {title: "Imóveis por Proprietário", xaxis: {title: "Total"}});
+
+            Plotly.newPlot("grafico-visitas-imovel", [{
+                x: dados.visitas_por_imovel.map(d => d.imovel),
+                y: dados.visitas_por_imovel.map(d => d.total),
+                type: "bar",
+                marker: {color: "teal"}
+            }], {title: "Visitas por Imóvel", xaxis: {title: "Imóvel"}, yaxis: {title: "Visitas"}});
+
+            Plotly.newPlot("grafico-visitas-usuario", [{
+                x: dados.visitas_por_usuario.map(d => d.usuario),
+                y: dados.visitas_por_usuario.map(d => d.total),
+                type: "bar",
+                orientation: "h",
+                marker: {color: "purple"}
+            }], {title: "Visitas por Usuário", xaxis: {title: "Visitas"}});
+        }
+
+        carregarDados();
+    </script>
 </body>
 </html>
